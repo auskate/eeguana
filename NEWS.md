@@ -1,15 +1,43 @@
-# eeguana 0.0.7.9000
+# eeguana 0.1.3.9000
+  - More unit testing.
+  - Bugs:
+    - `read_edf()` wasn't reading events from the status channel
+    - fixed some inconsistencies with `.reference` argument
+# eeguana 0.1.2.9000
+  - Changes:
+    - `drop_incomplete_segments()` added.
+    - More unit tests.
+    - Some minor bugs fixed.
+
+# eeguana 0.1.1.9000
+  - Changes:
+       - The introductory vignette (https://bnicenboim.github.io/eeguana/articles/intro.html) was slightly modified.
+       - `eeg_segment()` accepts unpaired events when `end` argument is used, and should be able to deal with duplicated triggers.
+       - `eeg_artif_peak()` detect peaks in the EEG signal.
+       - `eeg_ica_cor_tbl()` and `eeg_ica_var_tbl` show the correlation of components (ICA) with EOG channels and their variance explained.
+       - `eeg_ica_summary_tbl()` summarizes `eeg_ica_cor_tbl()` and `eeg_ica_var_tbl()`.
+  - Bugs:
+      - `events_tbl()` keep attributes.
+      
+# eeguana 0.1.0.9000
   - Changes
+      - New vignette that introduces the package [here](https://bnicenboim.github.io/eeguana/articles/intro.html).
       - FastICA was implemented in `eeg_ica()`.
-      - Artifact detection based on voltage steps implemented in `eeg_grad_artifact()`.
-      - Filters were greatly improved and checked, only FIR filters are supported for now.
+      - Artifact detection functions in `eeg_artif_*()`.
+      - Filters were greatly improved and checked, only FIR filters are supported for now, based on [MNE](https://www.martinos.org/mne).
       - Better documentation (mostly [Kate Stone](https://github.com/auskate)).
-      - `eeg_intervals_to_NA()` was renamed to `eeg_events_to_NA()`.
-      - `events()` was renamed to `events_tbl()`.
-      - `ch_filt_*` functions were renamed to `eeg_filt_*` and they get a `...` argument to select the relevant channels.
+      - Easy access to the information of the different tables with `signal_tbl()`, `events_tbl()`, and `segments_tbl()`.
       - Changes in the creation of `eeg_lst` objects.
       - Faster `as_tibble()`.
-      - `as.data.table()` was added
+      - `as.data.table()` was added.
+      - Renamed functions:
+          + `eeg_intervals_to_NA()` was renamed to `eeg_events_to_NA()`.
+          + `events()` was renamed to `events_tbl()`.
+          + `plot_gg()` should be changed to 'ggplot(aes(x=.time, y=.value))'.
+          + `summarize_all_ch(...)` should be changed to `summarize_at(channel_names(.),...)`.
+          + `summarize_at_ch(...)` should be changed to `summarize_at(...)`.
+          + `ch_filt_*()` functions were renamed to `eeg_filt_*()` and they get a `...` argument to select the relevant channels.
+          + `ch_baseline()` was renamed to `eeg_baseline()`.
    - Bugs
       - Events in Brain Vision version 1.0 file are now correctly read. 
       - Various minor bugs fixed.

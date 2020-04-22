@@ -4,16 +4,13 @@
 \alias{plot_topo}
 \alias{plot_topo.tbl_df}
 \alias{plot_topo.eeg_lst}
-\alias{plot_topo_ica.eeg_ica_lst}
 \title{Create a topographic plot}
 \usage{
 plot_topo(data, ...)
 
-\method{plot_topo}{tbl_df}(data, value = .value, label = .key)
+\method{plot_topo}{tbl_df}(data, value = .value, label = .key, ...)
 
 \method{plot_topo}{eeg_lst}(data, projection = "polar", ...)
-
-\method{plot_topo_ica}{eeg_ica_lst}(data, projection = "polar", ...)
 }
 \arguments{
 \item{data}{A table of interpolated electrodes as produced by \code{eeg_interpolate_tbl}, or an \code{eeg_lst}, or \code{ica_lst} appropiately grouped.}
@@ -52,46 +49,58 @@ without any further layers will create an unannotated topographical plot.
 To add a head and nose, add the layer \code{annotate_head}. Add
 contour lines with \code{ggplot2::geom_contour} and electrode labels
 with \code{ggplot2::geom_text}. These arguments are deliberately not
-built into the function so as to allow flexibility in choosing colour, font
+built into the function so as to allow flexibility in choosing color, font
 size, and even head size, etc.
 
 To add additional components to the plot such as titles and annotations, simply
-use the \code{+} symbol and add layers exactly as you would for \code{ggplot::ggplot}.
+use the \code{+} symbol and add layers exactly as you would for \link[ggplot2:ggplot]{ggplot2::ggplot}.
 }
 \examples{
-
+library(dplyr)
+library(ggplot2)
 # Calculate mean amplitude between 100-200 ms and plot the topography
-data_faces_ERPs \%>\% 
-    # select the time window of interest
-    filter(between(as_time(.sample_id, unit = "milliseconds"),100,200)) \%>\% 
-    # compute mean amplitude per condition
-    group_by(condition) \%>\%
-    summarize_all_ch(mean, na.rm = TRUE) \%>\%
-    plot_topo() +
-        # add a head and nose shape
-        annotate_head() + 
-        # add contour lines
-        geom_contour() +
-        # add electrode labels
-        geom_text(colour = "black") +
-        facet_grid(~condition)
+data_faces_ERPs \%>\%
+  # select the time window of interest
+  filter(between(as_time(.sample, unit = "milliseconds"), 100, 200)) \%>\%
+  # compute mean amplitude per condition
+  group_by(condition) \%>\%
+  summarize_at(channel_names(.), mean, na.rm = TRUE) \%>\%
+  plot_topo() +
+  # add a head and nose shape
+  annotate_head() +
+  # add contour lines
+  geom_contour() +
+  # add electrode labels
+  geom_text(color = "black") +
+  facet_grid(~condition)
 
 # The same but with interpolation
-data_faces_ERPs \%>\% 
-    filter(between(as_time(.sample_id, unit = "milliseconds"),100,200)) \%>\% 
-    group_by(condition) \%>\%
-    summarize_all_ch(mean, na.rm = TRUE) \%>\%
-    eeg_interpolate_tbl() \%>\%
-    plot_topo() +
-        annotate_head() + 
-        geom_contour() +
-        geom_text(colour = "black") +
-        facet_grid(~condition)
-
-
+data_faces_ERPs \%>\%
+  filter(between(as_time(.sample, unit = "milliseconds"), 100, 200)) \%>\%
+  group_by(condition) \%>\%
+  summarize_at(channel_names(.), mean, na.rm = TRUE) \%>\%
+  eeg_interpolate_tbl() \%>\%
+  plot_topo() +
+  annotate_head() +
+  geom_contour() +
+  geom_text(color = "black") +
+  facet_grid(~condition)
 }
 \seealso{
-Other plot: \code{\link{plot.eeg_lst}},
-  \code{\link{plot_gg}}, \code{\link{plot_in_layout}}
+Other plotting functions: 
+\code{\link{annotate_events}()},
+\code{\link{annotate_head}()},
+\code{\link{eeg_downsample}()},
+\code{\link{ggplot.eeg_lst}()},
+\code{\link{plot.eeg_lst}()},
+\code{\link{plot_components}()},
+\code{\link{plot_in_layout}()},
+\code{\link{theme_eeguana}()}
+
+Other topographic plots and layouts: 
+\code{\link{layout_32_1020}},
+\code{\link{plot_components}()},
+\code{\link{plot_in_layout}()}
 }
-\concept{plot}
+\concept{plotting functions}
+\concept{topographic plots and layouts}

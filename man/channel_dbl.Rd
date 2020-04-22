@@ -4,8 +4,14 @@
 \alias{channel_dbl}
 \title{Builds a channel.}
 \usage{
-channel_dbl(values, x = NA_real_, y = NA_real_, z = NA_real_,
-  reference = NA, ...)
+channel_dbl(
+  values,
+  x = NA_real_,
+  y = NA_real_,
+  z = NA_real_,
+  reference = NA,
+  ...
+)
 }
 \arguments{
 \item{values}{Vector of doubles indicating amplitudes.}
@@ -25,11 +31,10 @@ Builds a channel.
 }
 \examples{
 
-Cz <- channel_dbl(runif(100,-5,5))
+Cz <- channel_dbl(runif(100, -5, 5))
 }
 \seealso{
-Other channel: \code{\link{ch_baseline}},
-  \code{\link{chs_mean}}, \code{\link{eeg_rereference}},
-  \code{\link{is_channel_dbl}}
+Other channel: 
+\code{\link{is_channel_dbl}()}
 }
 \concept{channel}

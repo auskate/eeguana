@@ -8,26 +8,25 @@
 \alias{eeg_filt_band_stop}
 \title{Apply a zero-phase low-pass, high-pass, band-pass, or band-stop FIR filter.}
 \usage{
-eeg_filt_low_pass(.data, ..., freq = NULL, config = list(),
-  na.rm = FALSE)
+eeg_filt_low_pass(.data, ..., freq = NULL, config = list(), na.rm = FALSE)
 
-eeg_filt_high_pass(.data, ..., freq = NULL, config = list(),
-  na.rm = FALSE)
+eeg_filt_high_pass(.data, ..., freq = NULL, config = list(), na.rm = FALSE)
 
-eeg_filt_band_pass(.data, ..., freq = NULL, config = list(),
-  na.rm = FALSE)
+eeg_filt_band_pass(.data, ..., freq = NULL, config = list(), na.rm = FALSE)
 
-eeg_filt_band_stop(.data, ..., freq = NULL, config = list(),
-  na.rm = FALSE)
+eeg_filt_band_stop(.data, ..., freq = NULL, config = list(), na.rm = FALSE)
 }
 \arguments{
 \item{.data}{A channel or an eeg_lst.}
 
 \item{...}{Channels to apply the filters to. All the channels by default.}
 
-\item{freq}{A single cut frequency for \code{eeg_filt_low_pass} and \code{eeg_filt_high_pass}, two edges for  \code{eeg_filt_band_pass} and \code{eeg_filt_stop_pass}.}
+\item{freq}{A single cut frequency for \code{eeg_filt_low_pass} and \code{eeg_filt_high_pass}, two edges for
+\code{eeg_filt_band_pass} and \code{eeg_filt_band_stop}.}
 
 \item{config}{Other parameters passed in a list to the ICA method. (Not implemented)}
+
+\item{na.rm}{=TRUE will set to NA the entire segment that contains an NA, otherwise the filter will stop with an error.}
 }
 \value{
 A channel or an eeg_lst.
@@ -40,18 +39,32 @@ Apply a zero-phase low-pass, high-pass, band-pass, or band-stop filter of the  F
 \item \code{eeg_filt_low_pass()} Low-pass or high-cut filter.
 \item \code{eeg_filt_high_pass()} High-pass or low-cut filter.
 \item \code{eeg_filt_band_pass()} Band-pass filter.
-\item \code{eeg_filt_stop_pass()} Stop-pass filter.
+\item \code{eeg_filt_band_stop()} Band-stop filter.
 }
 }
 \examples{
+library(dplyr)
+library(ggplot2)
 data("data_faces_ERPs")
 data_ERPs_filtered <- data_faces_ERPs \%>\%
-                      eeg_filt_low_pass(freq = 5)
+  eeg_filt_low_pass(freq = 1)
 # Compare the ERPs
-data_faces_ERPs \%>\% select(O1, O2, P7, P8) \%>\%
-                    plot() +
-                    facet_wrap(~.key)
-data_ERPs_filtered \%>\% select(O1, O2, P7, P8) \%>\%
-                       plot() +
-                       facet_wrap(~.key)
+data_faces_ERPs \%>\%
+  select(O1, O2, P7, P8) \%>\%
+  plot() +
+  facet_wrap(~.key)
+data_ERPs_filtered \%>\%
+  select(O1, O2, P7, P8) \%>\%
+  plot() +
+  facet_wrap(~.key)
 }
+\seealso{
+Other preprocessing functions: 
+\code{\link{eeg_baseline}()},
+\code{\link{eeg_downsample}()},
+\code{\link{eeg_ica_keep}()},
+\code{\link{eeg_ica}()},
+\code{\link{eeg_rereference}()},
+\code{\link{eeg_segment}()}
+}
+\concept{preprocessing functions}
