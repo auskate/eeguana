@@ -54,8 +54,7 @@ participant was presented 100 faces and 100 assorted images in random
 order. The task of the experiment was to mentally count the number of
 faces.
 
-First we download the
-data:
+First we download the data:
 
 ``` r
 # Run the following or just download the files from brain_vision folder in https://osf.io/tbwvz/
@@ -411,8 +410,7 @@ faces_segs_some %>%
 
 ## See also
 
-Other R packages for EEG/ERP
-    data:
+Other R packages for EEG/ERP data:
 
   - [permuco4brain](https://jaromilfrossard.github.io/permuco4brain/index.html)
     provides functions to compute permutation test in brain imagery
